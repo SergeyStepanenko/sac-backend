@@ -1,0 +1,40 @@
+{
+  "name": "dbs-project-backend",
+  "version": "1.0.0",
+  "main": "src/server.ts",
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'node -r ts-node/register --inspect=0.0.0.0:9229' src/server.ts",
+    "debug": "node -r ts-node/register --inspect=0.0.0.0:9229 src/server.ts"
+  },
+  "author": "Sergey Stepanenko",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.6",
+    "@types/mongoose": "^5.5.23",
+    "@types/node": "^10.12.2",
+    "nodemon": "^1.11.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.20.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.7",
+    "typescript": "3.9.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,json,css,md}": [
+      "prettier --write",
+      "eslint --quiet --fix",
+      "git add"
+    ]
+  }
+}
