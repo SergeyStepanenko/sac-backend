@@ -1,5 +1,5 @@
 {
-  "name": "dbs-project-backend",
+  "name": "sac-backend",
   "version": "1.0.0",
   "main": "src/server.ts",
   "scripts": {
@@ -21,7 +21,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.7.7",
-    "typescript": "^3.9.6"
+    "typescript": "^3.9.7"
   },
   "husky": {
     "hooks": {
