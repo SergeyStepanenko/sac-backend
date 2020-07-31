@@ -48,6 +48,12 @@ app.delete('/items', async (req, res) => {
 
   const item = await db.items.remove({ id })
 
+  if (!item) {
+    res.status(404).send({ error: `Не найдено` })
+
+    return
+  }
+
   res.send(item)
 })
 
