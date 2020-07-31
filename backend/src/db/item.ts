@@ -17,14 +17,14 @@ modelSchema.pre('save', preSaveAddBaseTime)
 
 export const ItemModel = model<IItemModel>('Item', modelSchema)
 
-export async function getItems(limit = 100) {
+export async function get(limit = 100) {
   return await ItemModel.find().limit(limit).exec()
 }
 
-export function addItem(item: ISacItem) {
+export function add(item: ISacItem) {
   return ItemModel.create(item)
 }
 
-export function removeItem({ id }) {
+export function remove({ id }) {
   return ItemModel.findByIdAndRemove(id)
 }

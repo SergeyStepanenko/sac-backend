@@ -4,7 +4,7 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
-import { getItems, addItem, ISacItem } from './db/item'
+import * as db from './db'
 
 dotenv.config()
 
@@ -15,13 +15,13 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get('/items', async (req, res) => {
-  const items = await getItems()
+  const items = await db.items.get()
 
   res.send(items)
 })
 
 app.post('/items', async (req, res) => {
-  const { title, description } = req.body as ISacItem
+  const { title, description } = req.body as db.items.ISacItem
 
   if (typeof title !== 'string' || typeof description !== 'string') {
     res.status(422).send({ error: 'Ошибка валидации' })
@@ -29,10 +29,24 @@ app.post('/items', async (req, res) => {
     return
   }
 
-  const item = await addItem({
+  const item = await db.items.add({
     title,
     description
   })
+
+  res.send(item)
+})
+
+app.delete('/items', async (req, res) => {
+  const { id } = req.body
+
+  if (typeof id !== 'string') {
+    res.status(422).send({ error: 'Ошибка валидации' })
+
+    return
+  }
+
+  const item = await db.items.remove({ id })
 
   res.send(item)
 })
