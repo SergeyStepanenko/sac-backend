@@ -3,7 +3,7 @@ import { preSaveAddBaseTime } from './base'
 import { defaultSchemaOptions } from './utils'
 
 export interface ISacItem {
-  name: string
+  title: string
   description: string
 }
 
@@ -11,7 +11,7 @@ export interface IItemModel extends ISacItem, Document {}
 
 const modelSchema = new Schema<ISacItem>(
   {
-    name: { type: String, required: true },
+    title: { type: String, required: true },
     description: { type: String, required: true }
   },
   defaultSchemaOptions
