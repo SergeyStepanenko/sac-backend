@@ -1,16 +1,16 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import * as db from '../../db'
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
   const items = await db.items.get()
 
   res.send(items)
 })
 
-router.post('/', async (req, res) => {
-  const { title, description } = req.body as db.items.ISacItem
+router.post('/', async (req: Request, res: Response) => {
+  const { title, description } = req.body
 
   if (typeof title !== 'string' || typeof description !== 'string') {
     res.status(422).send({ error: 'Ошибка валидации' })
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
   res.send(item)
 })
 
-router.put('/', async (req, res) => {
+router.put('/', async (req: Request, res: Response) => {
   const { id, title, description } = req.body as db.items.ISacItem & {
     id: string
   }
@@ -52,7 +52,7 @@ router.put('/', async (req, res) => {
   res.send(item)
 })
 
-router.delete('/', async (req, res) => {
+router.delete('/', async (req: Request, res: Response) => {
   const { id } = req.body
 
   if (typeof id !== 'string') {
