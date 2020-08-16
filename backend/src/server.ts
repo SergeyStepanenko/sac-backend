@@ -19,7 +19,8 @@ async function start() {
   try {
     await mongoose.connect(process.env.MONGOOSE_CONNECTION_STRING, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: false
     })
 
     const PORT = process.env.PORT || 5000

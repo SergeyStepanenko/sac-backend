@@ -25,6 +25,12 @@ export function add(item: ISacItem) {
   return ItemModel.create(item)
 }
 
+export function findAndUpdate(item: ISacItem & { id: string }) {
+  const { id, title, description } = item
+
+  return ItemModel.findOneAndUpdate({ _id: id }, { title, description })
+}
+
 export function remove({ id }) {
   return ItemModel.findByIdAndRemove(id)
 }

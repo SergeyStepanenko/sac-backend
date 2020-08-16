@@ -26,6 +26,32 @@ router.post('/', async (req, res) => {
   res.send(item)
 })
 
+router.put('/', async (req, res) => {
+  const { id, title, description } = req.body as db.items.ISacItem & {
+    id: string
+  }
+
+  if (typeof title !== 'string' || typeof description !== 'string') {
+    res.status(422).send({ error: 'Ошибка валидации' })
+
+    return
+  }
+
+  const item = await db.items.findAndUpdate({
+    id,
+    title,
+    description
+  })
+
+  if (item === null) {
+    res.status(404).send({ error: `Элемент с id: ${id} не найден` })
+
+    return
+  }
+
+  res.send(item)
+})
+
 router.delete('/', async (req, res) => {
   const { id } = req.body
 
