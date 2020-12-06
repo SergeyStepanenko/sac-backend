@@ -1,0 +1,6 @@
+{
+  "**/*.+(ts|md)": [
+    "prettier --write",
+    "git add"
+  ]
+}
