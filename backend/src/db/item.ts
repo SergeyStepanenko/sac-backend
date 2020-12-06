@@ -31,7 +31,7 @@ interface IGetParams {
   limit?: number
 }
 
-export async function get(params?: IGetParams) {
+export async function get(params?: IGetParams): Promise<ISacItem[]> {
   const { title, limit = 100 } = params || {}
 
   if (title) {
@@ -43,7 +43,7 @@ export async function get(params?: IGetParams) {
   return await ItemModel.find().limit(limit).exec()
 }
 
-export function add(item: ISacItem) {
+export function add(item: ISacItem): Promise<ISacItem> {
   return ItemModel.create(item)
 }
 
