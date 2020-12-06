@@ -4,16 +4,36 @@ import * as db from '../../db'
 const router = express.Router()
 
 router.get('/', async (req: Request, res: Response) => {
-  const items = await db.items.get()
+  console.log('req', req)
 
-  res.send(items)
+  try {
+    if (req.query.title) {
+      const { title, limit } = req.query
+
+      res.send(
+        await db.items.get({
+          title: title as string,
+          limit: Number(limit)
+        })
+      )
+    }
+
+    res.send(await db.items.get())
+  } catch (error) {
+    res.send({
+      error: {
+        message: 'Не удалось получить данные',
+        error
+      }
+    })
+  }
 })
 
 router.post('/', async (req: Request, res: Response) => {
   const { title, description } = req.body
 
   if (typeof title !== 'string' || typeof description !== 'string') {
-    res.status(422).send({ error: 'Ошибка валидации' })
+    res.status(422).send({ error: { message: 'Ошибка валидации' } })
 
     return
   }
@@ -26,7 +46,12 @@ router.post('/', async (req: Request, res: Response) => {
 
     res.send(item)
   } catch (error) {
-    res.send({ error: 'При добавлении элемента возникла ошибка' })
+    res.send({
+      error: {
+        message: 'При добавлении элемента возникла ошибка',
+        error
+      }
+    })
   }
 })
 

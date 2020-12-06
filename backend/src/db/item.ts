@@ -26,7 +26,20 @@ modelSchema.set('toJSON', {
 
 export const ItemModel = model<IItemModel>('Item', modelSchema)
 
-export async function get(limit = 100) {
+interface IGetParams {
+  title?: string
+  limit?: number
+}
+
+export async function get(params?: IGetParams) {
+  const { title, limit = 100 } = params || {}
+
+  if (title) {
+    return await ItemModel.find({ title: { $regex: title, $options: 'i' } })
+      .limit(limit)
+      .exec()
+  }
+
   return await ItemModel.find().limit(limit).exec()
 }
 
