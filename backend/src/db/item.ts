@@ -37,7 +37,11 @@ export function add(item: ISacItem) {
 export function findAndUpdate(item: ISacItem & { id: string }) {
   const { id, title, description } = item
 
-  return ItemModel.findOneAndUpdate({ _id: id }, { title, description })
+  return ItemModel.findOneAndUpdate(
+    { _id: id },
+    { title, description },
+    { runValidators: true, new: true }
+  )
 }
 
 export function remove({ id }) {

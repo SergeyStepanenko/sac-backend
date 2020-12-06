@@ -18,12 +18,16 @@ router.post('/', async (req: Request, res: Response) => {
     return
   }
 
-  const item = await db.items.add({
-    title,
-    description
-  })
+  try {
+    const item = await db.items.add({
+      title,
+      description
+    })
 
-  res.send(item)
+    res.send(item)
+  } catch (error) {
+    res.send({ error: 'При добавлении элемента возникла ошибка' })
+  }
 })
 
 router.put('/', async (req: Request, res: Response) => {
