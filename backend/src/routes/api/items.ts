@@ -4,8 +4,6 @@ import * as db from '../../db'
 const router = express.Router()
 
 router.get('/', async (req: Request, res: Response) => {
-  console.log('req', req)
-
   try {
     if (req.query.title) {
       const { title, limit } = req.query
