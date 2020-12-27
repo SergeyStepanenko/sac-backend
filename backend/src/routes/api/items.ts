@@ -82,15 +82,15 @@ router.put('/', async (req: Request, res: Response) => {
 })
 
 router.delete('/', async (req: Request, res: Response) => {
-  const { id } = req.body
+  const { id: itemId } = req.body
 
-  if (typeof id !== 'string') {
+  if (typeof itemId !== 'string') {
     res.status(422).send({ error: 'Ошибка валидации' })
 
     return
   }
 
-  const item = await db.items.remove({ id })
+  const item = await db.items.remove(itemId)
 
   if (!item) {
     res.status(404).send({ error: `Не найдено` })

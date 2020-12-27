@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose'
+import { Schema, model, Document, DocumentQuery } from 'mongoose'
 
 export interface ISacItem {
   title: string
@@ -47,16 +47,18 @@ export function add(item: ISacItem): Promise<ISacItem> {
   return ItemModel.create(item)
 }
 
-export function findAndUpdate(item: ISacItem & { id: string }) {
-  const { id, title, description } = item
+export function findAndUpdate(
+  item: ISacItem & { id: string }
+): DocumentQuery<IItemModel, IItemModel> {
+  const { id: itemId, title, description } = item
 
   return ItemModel.findOneAndUpdate(
-    { _id: id },
+    { _id: itemId },
     { title, description },
     { runValidators: true, new: true }
   )
 }
 
-export function remove({ id }) {
-  return ItemModel.findByIdAndRemove(id)
+export function remove(itemId: string): DocumentQuery<IItemModel, IItemModel> {
+  return ItemModel.findByIdAndRemove(itemId)
 }
