@@ -1,3 +1,4 @@
 import items from './items'
+import categories from './categories'
 
-export default { items }
+export default { items, categories }
