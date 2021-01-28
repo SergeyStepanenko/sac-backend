@@ -14,7 +14,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
 app.use('/items', routes.items)
-app.use('/categories', routes.categories)
 
 async function start() {
   try {
