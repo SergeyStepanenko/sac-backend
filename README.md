@@ -1,10 +1,3 @@
-# sac
-
-Secure storage
-
-### to run backend
-
-```
-cd backend
-npm start
-```
+1. cp .env.example .env
+2. npm install
+3. npm start
