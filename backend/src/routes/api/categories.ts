@@ -1,21 +1,11 @@
 import express, { Request, Response } from 'express'
+import { CATEGORIES } from '../../constants/categories'
 
 const router = express.Router()
 
 router.get('/', (req: Request, res: Response) => {
   try {
-    res.send([
-      {
-        name: 'Спорт',
-        id: 0,
-        slug: 'sport',
-        icon: {
-          url: {
-            svg: ''
-          }
-        }
-      }
-    ])
+    res.send(CATEGORIES)
   } catch (error) {
     res.send({
       error: {

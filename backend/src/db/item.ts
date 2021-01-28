@@ -1,16 +1,33 @@
 import { Schema, model, Document, DocumentQuery } from 'mongoose'
+import { ITEM_VALIDATION_RULES } from '../constants'
 
 export interface ISacItem {
   title: string
   description: string
+  categoryId: number
+}
+
+export interface ISacItemWithId extends ISacItem {
+  id: string
 }
 
 export interface IItemModel extends ISacItem, Document {}
 
 const modelSchema = new Schema<ISacItem>(
   {
-    title: { type: String, required: true },
-    description: { type: String, required: true }
+    title: {
+      type: String,
+      required: true,
+      minlength: ITEM_VALIDATION_RULES.title.length.min,
+      maxlength: ITEM_VALIDATION_RULES.title.length.max
+    },
+    description: {
+      type: String,
+      required: true,
+      minlength: ITEM_VALIDATION_RULES.description.length.min,
+      maxlength: ITEM_VALIDATION_RULES.description.length.max
+    },
+    categoryId: { type: Number, required: true }
   },
   { timestamps: true }
 )
@@ -48,7 +65,7 @@ export function add(item: ISacItem): Promise<ISacItem> {
 }
 
 export function findAndUpdate(
-  item: ISacItem & { id: string }
+  item: ISacItemWithId
 ): DocumentQuery<IItemModel, IItemModel> {
   const { id: itemId, title, description } = item
 

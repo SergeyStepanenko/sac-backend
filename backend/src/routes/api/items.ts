@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express'
+import { getItemFromRequest, getItemWithIdFromRequest } from './utils'
 import * as db from '../../db'
 
 const router = express.Router()
@@ -28,21 +29,16 @@ router.get('/', async (req: Request, res: Response) => {
 })
 
 router.post('/', async (req: Request, res: Response) => {
-  const { title, description } = req.body
+  const itemData = getItemFromRequest(req)
 
-  if (typeof title !== 'string' || typeof description !== 'string') {
+  if (!itemData) {
     res.status(422).send({ error: { message: 'Ошибка валидации' } })
 
     return
   }
 
   try {
-    const item = await db.items.add({
-      title,
-      description
-    })
-
-    res.send(item)
+    res.send(await db.items.add(itemData))
   } catch (error) {
     res.send({
       error: {
@@ -54,24 +50,18 @@ router.post('/', async (req: Request, res: Response) => {
 })
 
 router.put('/', async (req: Request, res: Response) => {
-  const { id, title, description } = req.body as db.items.ISacItem & {
-    id: string
-  }
+  const itemData = getItemWithIdFromRequest(req)
 
-  if (typeof title !== 'string' || typeof description !== 'string') {
-    res.status(422).send({ error: 'Ошибка валидации' })
+  if (!itemData) {
+    res.status(422).send({ error: { message: 'Ошибка валидации' } })
 
     return
   }
 
-  const item = await db.items.findAndUpdate({
-    id,
-    title,
-    description
-  })
+  const item = await db.items.findAndUpdate(itemData)
 
   if (item === null) {
-    res.status(404).send({ error: `Элемент с id: ${id} не найден` })
+    res.status(404).send({ error: `Элемент с id: ${item.id} не найден` })
 
     return
   }
@@ -82,8 +72,8 @@ router.put('/', async (req: Request, res: Response) => {
 router.delete('/', async (req: Request, res: Response) => {
   const { id: itemId } = req.body
 
-  if (typeof itemId !== 'string') {
-    res.status(422).send({ error: 'Ошибка валидации' })
+  if (!itemId || typeof itemId !== 'string') {
+    res.status(422).send({ error: 'Передан невалидный id элемента' })
 
     return
   }
