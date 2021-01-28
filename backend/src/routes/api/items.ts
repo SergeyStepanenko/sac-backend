@@ -14,6 +14,8 @@ router.get('/', async (req: Request, res: Response) => {
           limit: Number(limit)
         })
       )
+
+      return
     }
 
     res.send(await db.items.get())
