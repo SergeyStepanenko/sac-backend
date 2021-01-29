@@ -3,6 +3,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import cool from 'cool-ascii-faces' // HEROKU
 
 import routes from './routes'
 
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
 app.use('/items', routes.items)
+app.get('/cool', (req, res) => res.send(cool())) // HEROKU
 
 async function start() {
   try {
