@@ -28,7 +28,7 @@ async function start() {
     app.listen(PORT)
 
     console.log(`
-      Connected to DB successfuly
+      Connected to DB successfuly!
       http://localhost:${PORT}
     `)
   } catch (error) {
